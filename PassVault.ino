@@ -26,15 +26,14 @@ BluetoothSerial SerialBT;
 
 void initializeAdmins() 
 {
-    
   admin[0] = {"Vault", "12345"};
-    
 }
 
 void initializePasswords()
 {
   password[0] = {"Facebook", "Vault", "12345"};
 }
+
 int cnp = 1; //This variable keeps track on the number of passwords used. It in used in registerPassword()
 
 void preMenu()
@@ -56,7 +55,6 @@ void mainMenu()
   initializePasswords();
   SerialBT.print('\n');
   SerialBT.print('\n');
-  SerialBT.flush();
   SerialBT.println("====== Main Menu ======");
   SerialBT.println("1. User Login");
   SerialBT.println("======================");
@@ -70,10 +68,10 @@ void mainMenu()
       switch (option) 
       {
       case 1:
-        userLogin();
-        break;
+      userLogin();
+      break;
       default:
-      SerialBT.println("Invalid option. Try again.");
+      SerialBT.println("Invalid option. Try again!");
       mainMenu();
       }
     }
@@ -86,7 +84,6 @@ void userLogin()
 {
   if (currentUserIndex == -1) 
   {
-    SerialBT.flush();
     delay(300);
     SerialBT.print('\n');
     SerialBT.print('\n');
@@ -132,7 +129,6 @@ void userLogin()
 
 void loggedInMenu() 
 {
-  SerialBT.flush();
   SerialBT.print('\n');
   SerialBT.print('\n');
   SerialBT.println("===== Logged In Menu =====");
@@ -254,9 +250,12 @@ void setup()
 
 void loop() 
 {
-  while(!SerialBT.available()){delay(50);}
-  delay(300);
-  SerialBT.flush();
+  while(!SerialBT.available())
+  {
+    SerialBT.println("Send any character to begin");
+    delay(2500);
+  }
+  SerialBT.parseInt();
+  SerialBT.read();
   preMenu();
-  delay(10);
 }
